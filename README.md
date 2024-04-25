@@ -11,5 +11,5 @@ This system is designed to extract and compile problem-solving notes from PDFs f
 Before running the scripts, you will need to install the necessary Python libraries. Run the following command to install them:
 
 ```bash
-pip install pdfplumber openpyxl
+pip install PyPDF2 pdfplumber openpyxl
 ```
