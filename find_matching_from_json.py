@@ -17,7 +17,9 @@ def build_index(folder_path):
                         first_line = text.split('\n')[0]
                         page_problem_id = first_line.split()[0].replace('.', '')
                         if page_problem_id.isdigit():
-                            index[page_problem_id] = {"file": filename, "page": page_number}
+                            if page_problem_id not in index:
+                                index[page_problem_id] = []
+                            index[page_problem_id].append({"file": filename, "page": page_number})
                             print(f"{page_counter}. {filename} on page {page_number}: {page_problem_id}")
 
     return index
@@ -45,6 +47,6 @@ def search_by_Qnum(folder_path, problem_ids, json_path):
 if __name__ == "__main__":
     folder_path = 'data'
     json_path = 'problem_index.json'
-    problem_ids = [339, 200, 146]
+    problem_ids = [200]
     results = search_by_Qnum(folder_path, problem_ids, json_path)
     print(results)

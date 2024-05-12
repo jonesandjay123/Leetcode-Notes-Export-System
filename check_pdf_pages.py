@@ -1,7 +1,27 @@
+import json
 import pdfplumber
 import os
 from PyPDF2 import PdfWriter, PdfReader
 from read_excel import read_excel
+
+def export_matched_pages_using_index(problem_ids, folder_path, json_path, output_pdf_path):
+    pdf_writer = PdfWriter()
+    with open(json_path, 'r') as json_file:
+        index = json.load(json_file)
+
+        print("Starting the PDF export process...")
+
+        for problem_id in problem_ids:
+            if str(problem_id) in index:
+                for entry in index[str(problem_id)]:
+                    file_path = os.path.join(folder_path, entry["file"])
+                    pdf_reader = PdfReader(file_path)
+                    pdf_writer.add_page(pdf_reader.pages[entry["page"] - 1])
+
+                    print(f"Adding page {entry['page']} from '{entry['file']}' for problem ID {problem_id}.")
+
+    with open(output_pdf_path, 'wb') as out:
+        pdf_writer.write(out)
 
 def export_matched_pages(folder_path, problem_ids, output_pdf_path):
     page_counter = 0
@@ -35,6 +55,9 @@ def export_matched_pages(folder_path, problem_ids, output_pdf_path):
 
 if __name__ == "__main__":
     folder_path = 'data'
-    problem_ids = read_excel('data/meta.xlsx')
+    # problem_ids = read_excel('data/meta.xlsx')
+    problem_ids = [200]
+    json_path = 'problem_index.json'
     output_pdf_path = 'meta_notes.pdf'
-    export_matched_pages(folder_path, problem_ids, output_pdf_path)
+    # export_matched_pages(folder_path, problem_ids, output_pdf_path)
+    export_matched_pages_using_index(problem_ids, folder_path, json_path, output_pdf_path)
