@@ -2,7 +2,6 @@ import json
 import pdfplumber
 import os
 from PyPDF2 import PdfWriter, PdfReader
-from read_excel import read_excel
 
 def export_matched_pages_using_index(problem_ids, folder_path, json_path, output_pdf_path):
     pdf_writer = PdfWriter()
